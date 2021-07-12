@@ -5,10 +5,14 @@ using UnityEngine.UI;
 
 public class DestroyEnemy : MonoBehaviour
 {
+    public GameObject bullet;
     public GameObject FloatingText;
+    public GameObject FloatingText_Jetpack;
     private GameObject newInstance;
     private float temps = 0;
+    private float speed = 10000;
     public ParticleSystem expl;
+    //public AudioSource awp_sound;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,11 +36,28 @@ public class DestroyEnemy : MonoBehaviour
                 //if (hit.transform.name == "Cube")
                 if (hit.transform.name.Contains("Enemy"))
                 {
+
+                    GameObject isbullet = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
+                    Rigidbody isbulletRigid = isbullet.GetComponent<Rigidbody>();
+                    //Vector3 directie = hit.point - transform.position;
+                   
+                    isbullet.transform.LookAt(hit.point);
+                    isbulletRigid.AddForce(isbullet.transform.forward * speed);
+
                     //Debug.Log("SAKKKK");
+                    Sound_Manager.awp_sound_enable = 1;
+                    //if (MainMenu.Game_Sounds == 1)
+                    //{
+                        //awp_sound.volume = 0.25f;
+                        //awp_sound.Play();
+                    //}
                     Destroy(hit.transform.gameObject);
                     PlayerController.increase_score = 1;
                     Instantiate(expl, hit.transform.position, Quaternion.identity);
-                    newInstance = Instantiate(FloatingText, new Vector3(hit.transform.position.x, hit.transform.position.y + 2.5f, hit.transform.position.z), Quaternion.identity);
+                    if(PlayerController.jetpack_higher == 0)
+                        newInstance = Instantiate(FloatingText, new Vector3(hit.transform.position.x, hit.transform.position.y + 2.5f, hit.transform.position.z), Quaternion.identity);
+                    else
+                        newInstance = Instantiate(FloatingText_Jetpack, new Vector3(hit.transform.position.x, hit.transform.position.y + 2.5f, hit.transform.position.z), Quaternion.identity);
                 }
             }
         }
