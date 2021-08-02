@@ -28,11 +28,11 @@ public class Crosshair : MonoBehaviour
                 }
             }
         }*/
-        if (MainMenu.game_Started == 0)
+        if (Main_Menu.game_Started == 0)
         {
             this.transform.position = new Vector3(0, -100, 0);
         }
-        if (MainMenu.game_Started == 1)
+        if (Main_Menu.game_Started == 1)
         {
             this.transform.position = Input.mousePosition;
         }

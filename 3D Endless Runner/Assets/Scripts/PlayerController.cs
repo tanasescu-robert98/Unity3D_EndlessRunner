@@ -276,15 +276,15 @@ public class PlayerController : MonoBehaviour
                 Cursor.visible = true;
             }
         }
-        if (GameObject.Find("Player").transform.position.y < -2 && MainMenu.game_Started == 1)
+        if (GameObject.Find("Player").transform.position.y < -2 && Main_Menu.game_Started == 1)
         {
             //Debug.Log("GAME OVER!");
             //score = 0;
-            MainMenu.Credits_number += score;
+            Main_Menu.Credits_number += score;
             string stuff;
-            stuff = "" + MainMenu.Credits_number;
+            stuff = "" + Main_Menu.Credits_number;
             File.WriteAllText(Application.dataPath + "/credits.txt", stuff);
-            MainMenu.game_over_screen = 1;
+            Main_Menu.game_over_screen = 1;
             SceneManager.LoadScene("Main_Menu");
         }
         if (increase_score == 1)
@@ -371,7 +371,7 @@ public class PlayerController : MonoBehaviour
             jetpack_higher = 0;
 
 
-            MainMenu.game_over_screen = 1;
+            Main_Menu.game_over_screen = 1;
             SceneManager.LoadScene("Main_Menu");
         }
     }

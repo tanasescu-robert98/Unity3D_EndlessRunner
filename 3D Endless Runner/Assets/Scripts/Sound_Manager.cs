@@ -17,13 +17,13 @@ public class Sound_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pickup_sound_enable == 1 && MainMenu.Game_Sounds == 1)
+        if (pickup_sound_enable == 1 && Main_Menu.Game_Sounds == 1)
         {
             pickup_sound.volume = 0.25f;
             pickup_sound.Play();
             pickup_sound_enable = 0;
         }
-        if (awp_sound_enable == 1 && MainMenu.Game_Sounds == 1)
+        if (awp_sound_enable == 1 && Main_Menu.Game_Sounds == 1)
         {
             awp_sound.volume = 0.25f;
             awp_sound.Play();
