@@ -7,6 +7,8 @@ TagManager:
   - Borders
   - Platform
   - JetPack_Enemy
+  - Left_Wall
+  - Right_Wall
   layers:
   - Default
   - TransparentFX

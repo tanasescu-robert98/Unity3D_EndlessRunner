@@ -59,6 +59,11 @@ public class PlayerController : MonoBehaviour
     public static int jetpack_pickup_contor = 0;
     public int SloMo_Max_Value = 5000;
     public int SloMo_value = 5000;
+    public static bool is_wallrunning_left = false;
+    public static bool is_wallrunning_right = false;
+    public static bool is_positioned = false;
+    public static bool is_wallrunning_up = false;
+    public static bool is_wallrunning_down = false;
     //public AudioClip shot;
 
     // Start is called before the first frame update
@@ -96,11 +101,76 @@ public class PlayerController : MonoBehaviour
             this.GetComponent<MeshRenderer>().material = Red_Player;
         if (Player_Skin == 3)
             this.GetComponent<MeshRenderer>().material = Bling_Bling_Player;
+
+        is_wallrunning_left = false;
+        is_wallrunning_right = false;
+        is_positioned = false;
+        is_wallrunning_up = false;
+        is_wallrunning_down = false;
+        this.GetComponent<Rigidbody>().useGravity = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(is_wallrunning_left == true)
+        {
+            if(transform.position.y > 0)
+            {
+                is_wallrunning_up = false;
+                is_wallrunning_down = true;
+            }
+            if(transform.position.y < -0.2f)
+            {
+                is_wallrunning_up = true;
+                is_wallrunning_down = false;
+            }
+            if(is_positioned == false)
+            {
+                transform.position = new Vector3(-1.12f, -0.077f, 0.68f);
+                transform.Rotate(0, 0, -14);
+                is_wallrunning_up = true;
+            }
+            if(is_wallrunning_up == true)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y + 0.001f, transform.position.z);
+            }
+            if(is_wallrunning_down == true)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y - 0.001f, transform.position.z);
+            }
+            is_positioned = true;
+        }
+
+        if(is_wallrunning_right == true)
+        {
+            if(transform.position.y > 0)
+            {
+                is_wallrunning_up = false;
+                is_wallrunning_down = true;
+            }
+            if(transform.position.y < -0.2f)
+            {
+                is_wallrunning_up = true;
+                is_wallrunning_down = false;
+            }
+            if(is_positioned == false)
+            {
+                transform.position = new Vector3(2.9f, -0.077f, 0.68f);
+                transform.Rotate(0, 0, 14);
+                is_wallrunning_up = true;
+            }
+            if(is_wallrunning_up == true)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y + 0.001f, transform.position.z);
+            }
+            if(is_wallrunning_down == true)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y - 0.001f, transform.position.z);
+            }
+            is_positioned = true;
+        }
+
         if(pickup_picked == 1)
         {
             //Debug.Log("SUNT AICIEA");
@@ -120,6 +190,14 @@ public class PlayerController : MonoBehaviour
         }
         //print(playerDirection.y);
         //Debug.Log(Time.fixedDeltaTime);
+        
+        // if (Input.GetKeyDown(KeyCode.N))
+        // {
+        //     transform.position = new Vector3(2,2,2);
+        //     is_wallrunning_left = true;
+        //     this.GetComponent<Rigidbody>().useGravity = false;
+        // }
+        
         if (Input.GetKeyDown(KeyCode.R))
         {
             if(jetpack_enabled == 1)
@@ -342,13 +420,31 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (playerDirection.x > -3 && playerDirection.x < 3 && is_jumping != 1 && jetpack_enabled == 0)
+        if (playerDirection.x > -3 && playerDirection.x < 3 && is_jumping != 1 && jetpack_enabled == 0 && is_wallrunning_left == false && is_wallrunning_right == false)
         {
             rb.velocity = new Vector3(playerDirection.x * playerSpeed * 1.25f, -4.5f, 0);
         }
-        if(is_jumping == 1 && jetpack_enabled == 0)
+        if(is_jumping == 1 && jetpack_enabled == 0 && is_wallrunning_left == false && is_wallrunning_right == false)
         {
             rb.velocity = new Vector3(playerDirection.x * playerSpeed * 1.25f, playerDirection.y * playerSpeed * 2 , 0);
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.tag == "Left_Wall")
+        {
+            is_wallrunning_left = false;
+            this.GetComponent<Rigidbody>().useGravity = true;
+            transform.Rotate(0, 0, 14);
+            is_positioned = false;
+        }
+        if (collision.tag == "Right_Wall")
+        {
+            is_wallrunning_right = false;
+            this.GetComponent<Rigidbody>().useGravity = true;
+            transform.Rotate(0, 0, -14);
+            is_positioned = false;
         }
     }
 
@@ -373,6 +469,16 @@ public class PlayerController : MonoBehaviour
 
             Main_Menu.game_over_screen = 1;
             SceneManager.LoadScene("Main_Menu");
+        }
+        if (collision.tag == "Left_Wall")
+        {
+            is_wallrunning_left = true;
+            this.GetComponent<Rigidbody>().useGravity = false;
+        }
+        if (collision.tag == "Right_Wall")
+        {
+            is_wallrunning_right = true;
+            this.GetComponent<Rigidbody>().useGravity = false;
         }
     }
 
