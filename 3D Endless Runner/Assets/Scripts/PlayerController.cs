@@ -66,15 +66,10 @@ public class PlayerController : MonoBehaviour
     public bool is_wallrunning_down = false;
     private int disable_gravity = 0;
     private float y_speed_gravity = 4.5f;
-    //public AudioClip shot;
 
     // Start is called before the first frame update
     void Start()
     {
-        /*if(Player_Skin == 0)
-        {
-            originalMat = GetComponent<Renderer>().material;
-        }*/
         newinstance2 = Instantiate(Jetpack_Pickup_Text, new Vector3(-100,-100,-100), Quaternion.identity);
         Instantiate(Jetpack_Tube, new Vector3(-100, -100, -100), Quaternion.identity);
         Instantiate(Jetpack_Tube_2, new Vector3(-100, -100, -100), Quaternion.identity);
@@ -118,29 +113,29 @@ public class PlayerController : MonoBehaviour
         if(is_wallrunning_left == true)
         {
             rb.velocity = new Vector3(0, 0, 0);
-            if(transform.position.y > 0)
+            if(is_positioned == false)
+            {
+                transform.position = new Vector3(-1.12f, -0.10f, 0.68f);
+                transform.Rotate(0, 0, -14);
+                is_wallrunning_up = true;
+            }
+            if(transform.position.y > 0.4f)
             {
                 is_wallrunning_up = false;
                 is_wallrunning_down = true;
             }
-            if(transform.position.y < -0.2f)
+            if(transform.position.y < -0.40f)
             {
                 is_wallrunning_up = true;
                 is_wallrunning_down = false;
             }
-            if(is_positioned == false)
-            {
-                transform.position = new Vector3(-1.12f, -0.077f, 0.68f);
-                transform.Rotate(0, 0, -14);
-                is_wallrunning_up = true;
-            }
             if(is_wallrunning_up == true)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y + 0.001f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y + 0.0025f, transform.position.z);
             }
-            if(is_wallrunning_down == true)
+            else if(is_wallrunning_down == true)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y - 0.001f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y - 0.0025f, transform.position.z);
             }
             is_positioned = true;
         }
@@ -148,41 +143,39 @@ public class PlayerController : MonoBehaviour
         if(is_wallrunning_right == true)
         {
             rb.velocity = new Vector3(0, 0, 0);
-            if(transform.position.y > 0)
+            if(is_positioned == false)
+            {
+                transform.position = new Vector3(2.9f, -0.10f, 0.68f);
+                transform.Rotate(0, 0, 14);
+                is_wallrunning_up = true;
+            }
+            if(transform.position.y > 0.4f)
             {
                 is_wallrunning_up = false;
                 is_wallrunning_down = true;
             }
-            if(transform.position.y < -0.2f)
+            if(transform.position.y < -0.40f)
             {
                 is_wallrunning_up = true;
                 is_wallrunning_down = false;
             }
-            if(is_positioned == false)
-            {
-                transform.position = new Vector3(2.9f, -0.077f, 0.68f);
-                transform.Rotate(0, 0, 14);
-                is_wallrunning_up = true;
-            }
             if(is_wallrunning_up == true)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y + 0.001f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y + 0.0025f, transform.position.z);
             }
-            if(is_wallrunning_down == true)
+            else if(is_wallrunning_down == true)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y - 0.001f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y - 0.0025f, transform.position.z);
             }
             is_positioned = true;
         }
 
         if(pickup_picked == 1)
         {
-            //Debug.Log("SUNT AICIEA");
             if(jetpack_pickup_contor == 0)
                 newinstance2.transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
             if (jetpack_pickup_contor == 200)
             {
-                //Destroy(newinstance2.gameObject);
                 newinstance2.transform.position = new Vector3(-100, -100, -100);
                 jetpack_pickup_contor = 0;
                 pickup_picked = 0;
@@ -192,8 +185,6 @@ public class PlayerController : MonoBehaviour
                 jetpack_pickup_contor++;
             }
         }
-        //print(playerDirection.y);
-        //Debug.Log(Time.fixedDeltaTime);
         
         if (Input.GetKeyDown(KeyCode.N))
         {
@@ -211,24 +202,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        /*if (Input.GetKeyDown(KeyCode.L))
-        {
-            PlayOneShot(shot);
-        }*/
         if (Input.GetKeyDown(KeyCode.U))
         {
-            /*if (SlowMo_Activated == 0)
-            {*/
-                Time.timeScale = 1.5f;
-                Time.fixedDeltaTime = 0.02F * Time.timeScale;
-                //SlowMo_Activated = 1;
-           /* }
-            else
-            {
-                Time.timeScale = 1;
-                Time.fixedDeltaTime = 0.02F;
-                SlowMo_Activated = 0;
-            }*/
+            Time.timeScale = 1.5f;
+            Time.fixedDeltaTime = 0.02F * Time.timeScale;
         }
 
         if (SlowMo_Activated == 1)
@@ -285,12 +262,8 @@ public class PlayerController : MonoBehaviour
             {
                 this.transform.position = new Vector3(transform.position.x, 3.5f, transform.position.z);
                 rb.useGravity = false;
-                /*Instantiate(Jetpack_Tube, new Vector3(-100, -100, -100), Quaternion.identity);
-                Instantiate(Jetpack_Tube_2, new Vector3(-100, -100, -100), Quaternion.identity);
-                Instantiate(jetpack_effect, new Vector3(-100, -100, -100), Quaternion.identity);*/
             }
             float directionX = Input.GetAxisRaw("Horizontal");
-            //float directionY = Input.GetAxisRaw("Vertical");
             playerDirection = new Vector3(directionX, 0, 0).normalized;
             rb.velocity = new Vector3(playerDirection.x * playerSpeed * 1.25f, 0, 0);
             Jetpack_Tube.transform.position = new Vector3(transform.position.x - 0.214f, transform.position.y, transform.position.z - 0.35f);
@@ -328,8 +301,6 @@ public class PlayerController : MonoBehaviour
         {
             Notification.text = "Double Jump Activated!";
             Notification_Panel.gameObject.SetActive(true);
-            /*healthBar.gameObject.SetActive(false);
-            slomoBar.gameObject.SetActive(false);*/
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -360,8 +331,6 @@ public class PlayerController : MonoBehaviour
         }
         if (GameObject.Find("Player").transform.position.y < -2 && Main_Menu.game_Started == 1)
         {
-            //Debug.Log("GAME OVER!");
-            //score = 0;
             Main_Menu.Credits_number += score;
             string stuff;
             stuff = "" + Main_Menu.Credits_number;
@@ -417,7 +386,6 @@ public class PlayerController : MonoBehaviour
         if (playerDirection.x > -3 && playerDirection.x < 3 && is_jumping != 1)
         {
             float directionX = Input.GetAxisRaw("Horizontal");
-            //float directionY = Input.GetAxisRaw("Vertical");
             playerDirection = new Vector3(directionX, 0, 0).normalized;
         }
         
@@ -442,6 +410,8 @@ public class PlayerController : MonoBehaviour
             this.GetComponent<Rigidbody>().useGravity = true;
             transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             is_positioned = false;
+            is_wallrunning_up = false;
+            is_wallrunning_down = false;
         }
         if (collision.tag == "Right_Wall")
         {
@@ -449,6 +419,8 @@ public class PlayerController : MonoBehaviour
             this.GetComponent<Rigidbody>().useGravity = true;
             transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             is_positioned = false;
+            is_wallrunning_up = false;
+            is_wallrunning_down = false;
         }
     }
 
