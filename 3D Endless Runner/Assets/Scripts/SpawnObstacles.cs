@@ -8,6 +8,8 @@ public class SpawnObstacles : MonoBehaviour
     public GameObject Pickup;
     public GameObject JetPack_Pickup;
     public GameObject SloMo_Pickup;
+    public GameObject left_wall;
+    public GameObject right_wall;
     public int canDeployPickpus = 0;
     public int canDeployJetPack_Pickup = 0;
     public int canDeploySloMo_Pickup = 0;
@@ -253,7 +255,8 @@ public class SpawnObstacles : MonoBehaviour
         }
         else if (spawn_type == 5)
         {
-            Debug.Log("Nothing");
+            //Instantiate(left_wall, transform.position + new Vector3(-2, -1, 40), transform.rotation);
+            //Debug.Log("Nothing");
             next_is_empty = 0;
         }
     }

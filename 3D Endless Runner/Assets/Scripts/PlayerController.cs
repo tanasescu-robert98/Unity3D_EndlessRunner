@@ -59,11 +59,13 @@ public class PlayerController : MonoBehaviour
     public static int jetpack_pickup_contor = 0;
     public int SloMo_Max_Value = 5000;
     public int SloMo_value = 5000;
-    public static bool is_wallrunning_left = false;
-    public static bool is_wallrunning_right = false;
-    public static bool is_positioned = false;
-    public static bool is_wallrunning_up = false;
-    public static bool is_wallrunning_down = false;
+    public bool is_wallrunning_left = false;
+    public bool is_wallrunning_right = false;
+    public bool is_positioned = false;
+    public bool is_wallrunning_up = false;
+    public bool is_wallrunning_down = false;
+    private int disable_gravity = 0;
+    private float y_speed_gravity = 4.5f;
     //public AudioClip shot;
 
     // Start is called before the first frame update
@@ -115,6 +117,7 @@ public class PlayerController : MonoBehaviour
     {
         if(is_wallrunning_left == true)
         {
+            rb.velocity = new Vector3(0, 0, 0);
             if(transform.position.y > 0)
             {
                 is_wallrunning_up = false;
@@ -144,6 +147,7 @@ public class PlayerController : MonoBehaviour
 
         if(is_wallrunning_right == true)
         {
+            rb.velocity = new Vector3(0, 0, 0);
             if(transform.position.y > 0)
             {
                 is_wallrunning_up = false;
@@ -191,12 +195,12 @@ public class PlayerController : MonoBehaviour
         //print(playerDirection.y);
         //Debug.Log(Time.fixedDeltaTime);
         
-        // if (Input.GetKeyDown(KeyCode.N))
-        // {
-        //     transform.position = new Vector3(2,2,2);
-        //     is_wallrunning_left = true;
-        //     this.GetComponent<Rigidbody>().useGravity = false;
-        // }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            Debug.Log("N APASAT");
+            disable_gravity = 1;
+            y_speed_gravity = 0;
+        }
         
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -422,7 +426,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerDirection.x > -3 && playerDirection.x < 3 && is_jumping != 1 && jetpack_enabled == 0 && is_wallrunning_left == false && is_wallrunning_right == false)
         {
-            rb.velocity = new Vector3(playerDirection.x * playerSpeed * 1.25f, -4.5f, 0);
+            rb.velocity = new Vector3(playerDirection.x * playerSpeed * 1.25f, -y_speed_gravity, 0);
         }
         if(is_jumping == 1 && jetpack_enabled == 0 && is_wallrunning_left == false && is_wallrunning_right == false)
         {
