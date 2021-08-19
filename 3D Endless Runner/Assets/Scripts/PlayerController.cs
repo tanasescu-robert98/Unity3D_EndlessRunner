@@ -440,14 +440,14 @@ public class PlayerController : MonoBehaviour
         {
             is_wallrunning_left = false;
             this.GetComponent<Rigidbody>().useGravity = true;
-            transform.Rotate(0, 0, 14);
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             is_positioned = false;
         }
         if (collision.tag == "Right_Wall")
         {
             is_wallrunning_right = false;
             this.GetComponent<Rigidbody>().useGravity = true;
-            transform.Rotate(0, 0, -14);
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
             is_positioned = false;
         }
     }

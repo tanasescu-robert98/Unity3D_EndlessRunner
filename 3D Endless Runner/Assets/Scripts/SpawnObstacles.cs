@@ -255,7 +255,8 @@ public class SpawnObstacles : MonoBehaviour
         }
         else if (spawn_type == 5)
         {
-            //Instantiate(left_wall, transform.position + new Vector3(-2, -1, 40), transform.rotation);
+            Instantiate(left_wall, new Vector3(-2.4f, -0.03f, 40), transform.rotation);
+            Instantiate(right_wall, new Vector3(3.73f, -0.03f, 40), transform.rotation);
             //Debug.Log("Nothing");
             next_is_empty = 0;
         }
